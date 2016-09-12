@@ -24,8 +24,599 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h1>Curry On</h1>
+					<h3>Rome 2016</h3>
+				</section>
+				<section>
+				<section>
+					<h1>David Nolen - Win Big with Old Ideas
+						<a href="https://www.youtube.com/watch?v=JlgVSt-WWkA"><img class="plain" width=40 src="yt.png" alt=""></a>
+					</h1>
+					(simple, implementable in an afternoon... like Go game)
+david nolen's 4 features/ideas:
+					<br>
+					<ul>
+						<li>Lisp</li>
+						<li>Tries</li>
+						<li>Datalog</li>
+						<li>Regular expressions</li>
+					</ul>
+				</section>
+				<section>
+<h1>Lisp</h1>
+Achieving actual goal:
+from punching  cards to eval/apply (feedback cycle)
+<br>
+small core -> easy to maintain (only 3 people w/ commit rights for Clojure)
+<br>
+Users extend the language with meta-programming, macros :/
+
+				</section>
+				<section>
+					<h3>
+						<a href="https://en.wikipedia.org/wiki/Trie">Tries</a>
+					</h3>
+
+Cons cells for lisp ->
+<br>
+ideal hash trees phil bagwell + <a href="https://www.amazon.co.uk/Purely-Functional-Data-Structures-Okasaki/dp/0521663504">okasaki</a>  -> <a href="http://hypirion.com/musings/understanding-persistent-vector-pt-1">clojure vectors</a>
+<br>
+making concurrent programming easier... and leads to different application architectures
+
+				</section>
+				<section>
+					<h3>
+						<a href="http://docs.datomic.com/query.html#sec-2">Datalog</a>
+					</h3>
+					"Terminating" prolog
+					<br>
+similarities with <a href="http://graphql.org/">GraphQL</a>
+<br>
+immutability -> auditing
+				</section>
+				<section>
+					<h3>Regexps</h3>
+					<p>papers:</p>
+					<ul>
+						<li>Derivatives of Regexp  <a href="https://www.mpi-sws.org/~turon/re-deriv.pdf">(see also)</a></li>
+						<li><a href="http://matt.might.net/papers/might2011derivatives.pdf">Parsing with Derivatives</a></li>
+
+					</ul>
+					<p><a href="http://clojure.org/guides/spec">clojure spec</a>:</p>
+					<ul>
+						<li>documentation</li>
+						<li>eliminate macro body parsing (think error handling)</li>
+						<li>property based testinf or free</li>
+					</ul>
+
+				</section>
+				</section>
+				<section>
+				<section>
+					<h1>Peter O'Hearn - Move fast to fix more things
+						<a href="https://www.youtube.com/watch?v=xc72SYVU2QY"><img src="yt.png" alt="" class="plain" width="40"></a>
+					</h1>
+
+<p>Shape analysis from Denotational semantics, abstract interpretation
+(compositional analysis)
+</p>
+<p>bi-abduction -> infer preconditions... allow to scale to bigger programs</p>
+
+<p><a href="http://fbinfer.com/">fb's infer</a>  (fb acquired monoidics)</p>
+
+					</section><section>
+						<p>program verification -> move slow and break almost nothing</p>
+
+						<p>bringing false positive rate down (but not that important)</p>
+
+					</section><section>
+						<p>people problems: context switching is hard, who to assign bug?</p>
+
+						<p>integrate with development process, rather than examining existing code base: keep momentum instead of slowing devs down</p>
+
+						<p>fix rate, volume, perf</p>
+
+<p>(<a href="https://en.wikipedia.org/wiki/Separation_logic#Concurrent_Separation_Logic">concurrent separation logic</a>)</p>
+
+				</section>
+				</section>
+				<section>
+				<section>
+					<h1>James Noble - Notes on Post-Post-Modern-Modern Programming
+						<a href="https://www.youtube.com/watch?v=a5Q7td6t-iw"><img src="yt.png" alt="" class="plain" width="40"></a>
+					</h1>
+					</section><section>
+<blockquote>The general admission of the existence of the software failure in this group of responsible people is the most refreshing experience I have had in a number of years, because the admission of shortcomings is the primary condition for improvement</blockquote>
+<p>
+Dijkstra
+</p>
+</section><section>
+<blockquote>There are two ways of constructing a software design: One way is to make it so simple that there are obviously no deficiencies, and the other way is to make it so complicated that there are no obvious deficiencies</blockquote>
+<p>
+					Tony Hoare
+</p>
+</section><section>on Correctness, Efficiency:
+	<blockquote>
+					Software that fails to meet these goals is evidence of the moral weakness of its programmers</blockquote>
+<p>
+					Martin Rinard
+</p>
+				</section>
+				</section>
+				<section>
+				<section>
+					<h1>
+						<a href="http://justtesting.org/">Manuel Chakravarty</a> - A Type is Worth a Thousand Tests
+						<a href="https://www.youtube.com/watch?v=q1Yi-WM7XqQ"><img src="yt.png" alt="" class="plain" width="40"></a>
+					</h1>
+					Swift: typed fp in a mainstream language
+<br>
+types are not simply restraints, but a design tool
+<br>
+a language to talk about the static properties of programs
+<br>
+"make undesirable states unrepresentable"
+
+</section><section>
+
+value types and protocols
+<br>
+<a href="https://developer.apple.com/swift/blog/?id=10">Value types are immutable</a> -> localize change
+<br>
+In MVC the Model is often passed around as a reference type
+<br>
+risks: accidental changes, changes in the wrong order
+
+</section><section>
+
+If the whole model is immutable
+<br>
+We don't need integration tests to ensure there are no accidental changes
+<br>
+And we avoid races on concurrent threads (multithread behaviour is often poorly tested, if at all)
+
+</section><section>
+
+In the sample tasks/goals application, we have a modal interface for displaying (and registering progress) vs editing goals
+<br>
+different mode -> different kind of state. You need to make sure to change everything consistently and make sure changes are represented in the UI
+<br>
+<a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Enumerations.html">"Enum with associated values"</a> allow us to associate a mode with the part of the state relevant to it.
+
+</section><section>
+
+Example: editing mode has a list of active goals, such list is simply not there in display mode (not a null list)
+<br>
+Avoid inconsistent state changes: since they're not representable anymore, we don't need tests for it anymore
+<br>
+The compiler will check for exahustiveness when handling state. We cannot forget to transition from a state to another
+
+</section><section>
+
+"Protocols with associated types" for structured change propagation
+<br>
+An int variable is not simply a mutating variable, it's a time series... or a function from time -> int
+<br>
+The <a href="https://en.wikipedia.org/wiki/Functional_reactive_programming">FRP</a> idea makes the flow of changes explicit in code, rather than being side effect of executing some code.
+<br>
+Changes can be composed
+
+</section><section>
+
+Protocol Observable, associatedtype ObservedValue
+<br>
+observe() is just a function, a callback
+<br>
+We can define Changing implementation of Observable with method announce(Value), can work as a replacement for assignment
+<br>
+An Accumulating implementation of Observable
+<br>
+Observable can now let us define collective operations: map (apply function to each value), merge (combine 2 streams of observations), accumulate (combines values in a stream)
+
+</section><section>
+
+Now we can model change propagation: we register 2 observables on our model (one for each of our modes).
+Each of them can effect change
+<br>
+To ensure that the display screen cannot edit the goals, and that the edit screen cannot record/update progress on those goals, we can do that with 2 different sets (different types) of change operations which are then merged
+<br>
+merged and then accumulated into the Goals state
+...
+
+
+				</section>
+				</section>
+				<section>
+				<section>
+					<h1>Caitie McCaffrey - Building Scalable Stateful Services
+						<a href="https://www.youtube.com/watch?v=aJFxQAAMAQc"><img src="yt.png" alt="" class="plain" width="40"></a>
+					</h1>
+<ul>
+	<li>data shipping paradigm</li>
+	<li>function shipping paradigm</li>
+</ul>
+<br>
+</section>
+<section>
+alternatives:
+<br>
+<ul>
+	<li>persistent connection</li>
+	<li>routing logic</li>
+</ul>
+<br>
+consensus: zookeeper, etd, <a href="http://research.microsoft.com/en-us/um/people/lamport/pubs/paxos-simple.pdf">paxos</a>, <a href="https://raft.github.io/">raft</a>
+<br>
+work distribution: random placement, consistent hashing, dht
+				</section>
+				<section>
+					<h3>in the real world</h3>
+					<a href="https://www.facebook.com/notes/facebook-engineering/under-the-hood-data-diving-with-scuba/10150599692628920/">fb's scuba</a>
+
+<br>
+implicit assumptions
+<br>
+<a href="https://github.com/CaitieM20/ScalingStatefulServices">notes</a>
+
+				</section>
+				</section>
+				<section>
+				<section>
+					<h1>Úlfar Erlingsson - Data-driven Software security using Differential Privacy and Deep Learning
+						<a href="https://www.youtube.com/watch?v=iOd9EGMB_Cg"><img src="yt.png" alt="" class="plain" width="40"></a>
+					</h1>
+					</section><section>
+					not much progress since the 198x
+<br>
+software security is a form of correctness
+<br>
+malicious adversaries (instead of random faults)
+<br>
+functional specs/security model are rarely and hardly written down (and the developer is not the user) -> data driven security model
+<br>
+</section><section>
+
+focus on what <b>never happens</b>
+<br>
+implement subspec, get rid of "dusty corners" in which vulns are found
+</section><section>
+<ul>
+	<li>Microsoft Solitaire:
+ has never used the network libraries it includes</li>
+	<li>OpenSSL Hearthbleed:
+ No TLS has ever had a huge heartbeat payload</li>
+	<li>Linux keyctl CVE-2016-0728:
+ keyctl system call is not used by any software</li>
+</ul>
+</section><section>
+<p>challenges:</p>
+<ul>
+	<li>how to monitor and collect data efficiently</li>
+	<li>avoid violating users' privacy</li>
+	<li>how to best make use of that data</li>
+</ul>
+<br>
+</section><section>
+
+microobfuscation of client data
+<br> <a href="https://en.wikipedia.org/wiki/Randomized_response">randomized response</a> (flip coin in private)
+<br>
+<a href="https://github.com/google/rappor">Google's Rappor</a>
+<br>
+</section><section>
+
+similar software has similar expectations (deep learning to spot black sheeps)
+
+				</section>
+				</section>
+				<section>
+					<h1>Kelley Robinson - Why The Free Monad isn't Free
+						<a href="https://www.youtube.com/watch?v=20WVE3bkYrQ"><img src="yt.png" alt="" class="plain" width="40"></a>
+					</h1>
+					free as in unrestricted, not gratis
+<br>
+free monoid: no lost data when appending
+<br>
+free monad: not losing data -> no evaluating functions
+<br>
+instead of
+<code>3 `fmap` (+ 2) -> 5</code>
+
+<br>
+but this:
+<code>3 `fmap` (+ 2) -> 3 + 2</code>
+
+<br>
+testing without relying on mocks
+<br>
+why not to use it
+
+				</section>
+				<section>
+					<h1>Oskar Wickström - Oden - A Functional Programming Language for the Go Ecosystem
+						<a href="https://www.youtube.com/watch?v=t_bR2UBEmp0"><img src="yt.png" alt="" class="plain" width="40"></a>
+					</h1>
+
+
+				</section>
+				<section>
+					<h1>Matthias - The Racket Manifesto
+						<a href="https://www.youtube.com/watch?v=-cLI3GHvLOM"><img src="yt.png" alt="" class="plain" width="40"></a>
+					</h1>
+				</section>
+				<section>
+					<h1>Ross Tate - Redesigning Type Systems for Industry OO
+						<a href="https://www.youtube.com/watch?v=V9S8lU58K68"><img src="yt.png" alt="" class="plain" width="40"></a>
+					</h1>
+
+Exploiting humanity in design
+<br>
+Programming language feature are valuable, but currently are too general
+<br>
+Derive principled AND usable solutions by analyzing human behavior
+				</section>
+				<section>
+				<section>
+					<h1>Francesco Logozzo - Static analysis for security at the Facebook scale</h1>
+					fb bug bounty
+<br>
+review of bug reports that can be captured by static analysis
+<br>
+low probability/high risk bugs
+<br>
+</section><section>
+
+format strings, input to exec, literal to api requiring password...
+<br>
+taint analysis doesn't scale
+
+<br>
+new bugs: look for other instances in old code
+early feedback on new code
+<br>
+<a href="http://hacklang.org/">hack (typed php)</a>, sharded analysis
+</section><section>
+
+<br>
+Static analysis:
+<ol>
+	<li>... map call sites -> types</li>
+	<li>compute superclass relations</li>
+	<li>build call graph, map call sites -> concrete methods</li>
+</ol>
+<br>
+<p>callables analysis:</p>
+<ul>
+	<li>depth first search for dependencies</li>
+	<li>bottom up analysis</li>
+</ul>
+<br>
+<p>forward analysis:</p>
+lazy summaries
+
+				</section>
+				</section>
+				<section>
+				<section>
+					<h1>Dmitry Ivanov & Nami Nasserazad - Practical Demystification of CRDTs
+						<a href="https://www.youtube.com/watch?v=ShiU9g5JFq8"><img src="yt.png" alt="" class="plain" width="40"></a>
+					</h1>
+					</section><section>
+
+					Conflict free Replicated Data Types
+<br>
+merge: commutative and associative
+<br>
+merge: idempotent
+
+</section><section>
+
+distributed counter:
+<br>
+single counter addition is not idempotent<br>
+counter for every separate server: pick max
+
+<br>
+same data model everywhere -> data will converge
+<br>
+
+solves order not guaranteed and events delivered N>1 times
+<br>
+<pre>A: A:6, B:0, C:0
+B: A:0, B:3, C:0
+C: A:0, B:0, C:9
+</pre>
+</section><section>
+
+
+g-counter (merge: max on corresponding elements [A:6, B:3, C:9], total value: sum (18))
+<pre>A:A:{x,y}, B:{}, C:{}
+B:A:{}, B:{z}, C:{}
+C:A:{}, B:{}, C:{a,b,c}
+</pre>
+</section><section>
+
+g-set (merge: union on corresponding sets, total value [A:{x,y}, B:{z}, C:{a,b,c}]: union of all sets ({x,y,z,a,b,c}))
+</section><section>
+
+2p-set (add set and remove set aka tombstone)
+</section><section>
+
+lww-element-set (2p-set but each element has a timestamp)
+</section><section>
+
+or-set (observed/removed) (2p-set: tag for each element)
+</section><section>
+
+our-set (observed/updated/removed) (only one set, of (id, removedFlag, tstamp, element))
+
+</section><section>
+<p>g-set with deletion:</p>
+
+<ul>
+	<li>timestamp</li>
+	<li>id</li>
+	<li>id and timestamp</li>
+</ul>
+</section><section>
+
+Problem: unbounded growth of tombstones
+<br>
+Mitigations:
+<br>
+pruning them
+<br>
+tombstone with TTL
+</section><section>
+
+tracking time: causality and ordering of events
+<br>
+crdt: existing and simple solution with limitations (same merge behavior, timestamp, concurrent modification on same element from different nodes)
+
+
+
+				</section>
+				</section>
+				<section>
+					<h1>Jaroslav Tulach - Become a Polyglot by learning Java!
+						<a href="https://www.youtube.com/watch?v=N__8TBcaDTs"><img src="yt.png" alt="" class="plain" width="40"></a>
+					</h1>
+				</section>
+				<section>
+				<section>
+					<h1>Cristina Cifuentes - Are We Ready for Secure Languages?
+						<a href="https://www.youtube.com/watch?v=-fC975HLhyc"><img src="yt.png" alt="" class="plain" width="40"></a>
+					</h1>
+					top 4 vulns for past 3 years:
+<br>
+
+<ul>
+	<li>buffer errors</li>
+	<li>xss</li>
+	<li>permissions/access control</li>
+	<li>crypto issues</li>
+</ul><br>
+bug <> feature relationship
+</section><section>
+
+
+sanitisation is the dev responsibility
+<br>
+most languages give you no support
+</section><section>
+
+static analysis
+<br>
+dynamic instrumentation, monitoring<br>
+fuzzing
+</section><section>
+<br>
+verification
+<br>model checking
+<br>theorem prover
+</section><section>
+
+languages can tackle it at the compiler level or dynamically:
+<br>
+<ul>
+	<li>rust compiler</li>
+	<li><a href="https://github.com/Microsoft/checkedc">checked C</a> (runtime bounds check)</li>
+	<li>memory safety</li>
+	<li><a href="https://developers.google.com/caja/docs/about/">javascript caja</a></li>
+</ul>
+</section><section>
+
+
+barriers for adoption:
+<br>
+<ul>
+	<li>performance</li>
+	<li>usability - cogn overload</li>
+	<li>usability - integration tooling</li>
+	<li>legacy languages</li>
+</ul>
+
+				</section>
+				</section>
+
+				<section>
+					<h1>Dave Herman - Building an Open Research Lab
+						<a href="https://www.youtube.com/watch?v=9OHcJzJQ2Nk"><img src="yt.png" alt="" class="plain" width="40"></a>
+					</h1>
+				</section>
+				<section>
+					<h1>Crista Lopes - Exercises in Programming Style - Curry On
+						<a href="https://www.youtube.com/watch?v=JlPMOszyjjo"><img src="yt.png" alt="" class="plain" width="40"></a>
+					</h1>
+					<br>
+					Many ways to solve problems.
+					<br>
+					Know the alternatives, what are you trying to optimize? Which constraints?
+					<br>
+					Make the constraints explicit
+
+				</section>
+				<section>
+					<h1>Simon Belak - Doing data science with Clojure: the ugly, the sad, the joyful
+						<a href="https://www.youtube.com/watch?v=6tZQqwil1c0"><img src="yt.png" alt="" class="plain" width="40"></a>
+					</h1>
+					Work on shaping your data for computation, rather than focusing on complex systems and distributed pipelines.
+<br>
+					Analytics results delivered in &lt; 2 min allow your company to truly be data driven
+				</section>
+				<section>
+				<section>
+					<h1>Sean Grove - From Unikernels to Databases to UIs: Truly full-stack apps in OCaml
+						<a href="https://www.youtube.com/watch?v=QWfHrbSqnB0"><img src="yt.png" alt="" class="plain" width="40"></a>
+					</h1>
+					</section>
+					<section>
+					App dev goals:
+<br>
+					<ul>
+						<li>Correctness (fewer bugs)</li>
+						<li>Dev/delivery speed</li>
+						<li>App performance</li>
+						<li>Code reuse (nice to have)</li>
+						<li>Security</li>
+						<li>Maintanability</li>
+					</ul>
+					</section><section>
+
+
+					But actually: Delivery, Delivery, Delivery.... (also perf, correctness, security)
+</section><section>
+<br>
+					Why Ocaml:<br>
+					lightweight but thorough type system<br>
+					obsession with performance<br>
+					predictable characteristics (no JIT)<br>
+					compiles to efficient JS<br>
+					compiles to ARM (react native?)<br>
+					functional style, but with mutations/imperative code when necessary
+</section><section>
+
+					Unikernels:
+<br>
+					<ul>
+						<li>New way of building/deploying systems</li>
+						<li>OS as a library</li>
+						<li>Thousands of lines of type safe code, vs millions of lines of unsafe code (much smaller surface area)</li>
+						<li>VM as small as 100KB -> Binary artifacts stored in git help with auditability</li>
+					</ul>
+</section><section>
+
+					Javascript target used for example to visualize data processed by the exact same code but compiled natively
+<br>
+					<p>Ocaml held back by:</p>
+
+					<ul>
+						<li>Ecosystem</li>
+						<li>non-webapp mindset</li>
+					</ul>
+				</section>
+				</section>
 			</div>
 		</div>
 
